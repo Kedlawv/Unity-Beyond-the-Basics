@@ -6,6 +6,7 @@ using UnityEngine;
 public class CoroutineSceneController : MonoBehaviour
 {
     public List<Shape> gameShapes;
+    public Coroutine countToNumberCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -18,9 +19,20 @@ public class CoroutineSceneController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(CountToNumber(2500));
+            countToNumberCoroutine = StartCoroutine(CountToNumber(2500)); // returns a referance to the started coroutine
+            
+            // StartCoroutine("CountToNumber",2500); // name of the coroutine to start as string and argument to the coroutine as second 
+                                                    // argument to StartCoroutine
+            // StartCoroutine(CountToNumber(2500)); // method call returning IEnumerator
             StartCoroutine(SetShapesBlue());
             Debug.Log("Keypress completed");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            // StopAllCoroutines();
+            //StopCoroutine("CountToNumber"); //works only if the coroutine was started using a string literal as well
+            StopCoroutine(countToNumberCoroutine); // stopping a coroutine by passing a reference to the coroutine we want to stop
         }
 
     }
@@ -47,6 +59,8 @@ public class CoroutineSceneController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         Debug.Log("I just wasted a second");
+
+        yield return StartCoroutine(SetShapesBlue());
     }
 
     private void SetShapesRed()
