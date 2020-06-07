@@ -6,7 +6,8 @@ public class SceneController : MonoBehaviour
 {
 
     public string[] shapes = { "circle", "square", "triangle", "octagon" };
-    public List<string> moreShapes;
+    
+    public List<string> moreShapes; // populated inside the editor
 
     public List<Shape> gameShapes;
     public Dictionary<string, Shape> shapeDictionary;
@@ -15,16 +16,24 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         shapeDictionary = new Dictionary<string, Shape>();
-        
-        Shape octagon = gameShapes.Find(s => s.Name == "Octagon");
 
-        shapeDictionary.Add("Octagon", octagon);
-        shapeDictionary["Octagon"].SetColor(Color.blue);
-
-        octagon.SetColor(Color.red);
+        foreach(Shape shape in gameShapes)
+        {
+            shapeDictionary.Add(shape.name, shape);
+        }
 
         ShapesArray();
         ShapesList();
+    }
+
+    private void SetRedByName(string shapeName)
+    {
+        shapeDictionary[shapeName].SetColor(Color.red);
+    }
+    private void FindExample()
+    {
+        Shape octagon = gameShapes.Find(s => s.Name == "Octagon");
+        octagon.SetColor(Color.red);
     }
 
     private void ShapesArray()
@@ -50,6 +59,14 @@ public class SceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SetRedByName("Square");
+        }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SetRedByName("Circle");
+        }
     }
 }
