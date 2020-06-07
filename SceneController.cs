@@ -9,11 +9,18 @@ public class SceneController : MonoBehaviour
     public List<string> moreShapes;
 
     public List<Shape> gameShapes;
+    public Dictionary<string, Shape> shapeDictionary;
 
     // Start is called before the first frame update
     void Start()
     {
+        shapeDictionary = new Dictionary<string, Shape>();
+        
         Shape octagon = gameShapes.Find(s => s.Name == "Octagon");
+
+        shapeDictionary.Add("Octagon", octagon);
+        shapeDictionary["Octagon"].SetColor(Color.blue);
+
         octagon.SetColor(Color.red);
 
         ShapesArray();
