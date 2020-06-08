@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Shape
 {
-    GameSceneController gameSceneController;
+    public ProjectileController projectilePrefab;
+    private GameSceneController gameSceneController;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +17,11 @@ public class PlayerController : Shape
     void Update()
     {
         MovePlayer();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            FireProjectile();
+        }
     }
 
     private void MovePlayer()
@@ -29,5 +35,15 @@ public class PlayerController : Shape
 
             this.transform.position = new Vector2(horizontalMovement, this.transform.position.y);
         }
+    }
+
+    private void FireProjectile()
+    {
+        Vector2 spawnPosition = this.transform.position;
+
+        ProjectileController projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+
+        projectile.projectileSpeed = 2;
+        projectile.projectileDirection = Vector2.up;
     }
 }

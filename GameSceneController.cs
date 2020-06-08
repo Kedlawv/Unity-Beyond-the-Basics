@@ -7,11 +7,15 @@ public class GameSceneController : MonoBehaviour
 
     public float playerSpeed;
     public Vector3 screenBounds;
+    public EnemyController enemyPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
         playerSpeed = 10f;
         screenBounds = GetScreenBounds();
+
+        StartCoroutine(SpawnEnemies());
 
     }
 
@@ -19,6 +23,21 @@ public class GameSceneController : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
+        WaitForSeconds wait = new WaitForSeconds(1);
+
+        while (true)
+        {
+            float horizontalPosition = Random.Range(-screenBounds.x, screenBounds.x);
+            Vector2 spawnPosition = new Vector2(horizontalPosition, screenBounds.y);
+
+            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+            yield return wait;
+        }
     }
 
     private Vector3 GetScreenBounds()
