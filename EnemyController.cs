@@ -14,10 +14,10 @@ public class EnemyController : Shape, IKillable
     // Update is called once per frame
     void Update()
     {
-        MoveEnemy();
+        MoveEnemy(this.InternalOutputText);
     }
 
-    private void MoveEnemy()
+    private void MoveEnemy(TextOutputHandler outputHandler)
     {
         this.transform.Translate(Vector2.down * Time.deltaTime, Space.World);
 
@@ -25,8 +25,14 @@ public class EnemyController : Shape, IKillable
 
         if(bottom <= -gameSceneController.screenBounds.y)
         {
+            outputHandler("Enemy at bottom");
             gameSceneController.KillObject(this);
         }
+    }
+
+    private void InternalOutputText(string output)
+    {
+        Debug.LogFormat("{0} output by EnemyController", output);
     }
 
     public void Kill()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void TextOutputHandler(string text);
 public class GameSceneController : MonoBehaviour
 {
 
@@ -50,7 +51,11 @@ public class GameSceneController : MonoBehaviour
 
     public void KillObject(IKillable killable)
     {
-        Debug.LogWarningFormat("{0} killed by Game Scene Controller", killable.GetName());
         killable.Kill();
+    }
+
+    public void OutputText(string output)
+    {
+        Debug.LogFormat("{0} output by game controller", output);
     }
 }
