@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : Shape
+public class ProjectileController : Shape, IKillable
 {
     public Vector2 projectileDirection;
     public float projectileSpeed;
@@ -12,6 +12,7 @@ public class ProjectileController : Shape
     {
         base.Start();
         SetColor(0, 0, 255);
+        Name = "Projectile";
     }
 
     // Update is called once per frame
@@ -27,7 +28,17 @@ public class ProjectileController : Shape
 
         if (top >= gameSceneController.screenBounds.y)
         {
-            Destroy(this.gameObject);
+            gameSceneController.KillObject(this);
         }
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
+    }
+
+    public string GetName()
+    {
+        return Name;
     }
 }
