@@ -35,10 +35,18 @@ public class GameSceneController : MonoBehaviour
             float horizontalPosition = Random.Range(-screenBounds.x, screenBounds.x);
             Vector2 spawnPosition = new Vector2(horizontalPosition, screenBounds.y);
 
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            EnemyController enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            enemy.EnemyEscaped += EnemyAtBottom; // subscribe the EnamyAtBottom method to execute when EnemyEscaped event is trigered
+                                                // += we can subscribe more than one method to one event
 
             yield return wait;
         }
+    }
+
+    private void EnemyAtBottom(EnemyController enemy)
+    {
+        Destroy(enemy.gameObject);
+        Debug.Log("Enemy escaped!");
     }
 
     private Vector3 GetScreenBounds()
