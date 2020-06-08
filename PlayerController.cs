@@ -5,15 +5,14 @@ using UnityEngine;
 public class PlayerController : Shape
 {
     public ProjectileController projectilePrefab;
-    private GameSceneController gameSceneController;
-    // Start is called before the first frame update
-    void Start()
-    {
-        gameSceneController = FindObjectOfType<GameSceneController>();
-        this.SetColor(Color.yellow);
-    }
 
     // Update is called once per frame
+    protected override void Start()
+    {
+        base.Start();
+        SetColor(Color.yellow);
+    }
+
     void Update()
     {
         MovePlayer();
@@ -33,7 +32,11 @@ public class PlayerController : Shape
             horizontalMovement = horizontalMovement * Time.deltaTime * gameSceneController.playerSpeed;
             horizontalMovement += this.transform.position.x;
 
-            this.transform.position = new Vector2(horizontalMovement, this.transform.position.y);
+            float right = gameSceneController.screenBounds.x - halfWidth;
+            float left = -right;
+            float limit = Mathf.Clamp(horizontalMovement, left, right);
+
+            this.transform.position = new Vector2(limit, this.transform.position.y);
         }
     }
 
