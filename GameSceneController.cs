@@ -9,12 +9,15 @@ public class GameSceneController : MonoBehaviour
     public float playerSpeed;
     public Vector3 screenBounds;
     public EnemyController enemyPrefab;
+    private HUDController hudController;
+    private int totalPoints;
 
     // Start is called before the first frame update
     void Start()
     {
         playerSpeed = 10f;
         screenBounds = GetScreenBounds();
+        hudController = FindObjectOfType<HUDController>();
 
         StartCoroutine(SpawnEnemies());
 
@@ -37,10 +40,18 @@ public class GameSceneController : MonoBehaviour
 
             EnemyController enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
             enemy.EnemyEscaped += EnemyAtBottom; // subscribe the EnamyAtBottom method to execute when EnemyEscaped event is trigered
-                                                // += we can subscribe more than one method to one event
+                                                 // += we can subscribe more than one method to one event
+
+            enemy.EnemyKilled += EnemyKilled; // Action event
 
             yield return wait;
         }
+    }
+
+    private void EnemyKilled(int pointValue)
+    {
+        totalPoints += pointValue;
+        hudController.scoreText.text = totalPoints.ToString();
     }
 
     private void EnemyAtBottom(EnemyController enemy)
