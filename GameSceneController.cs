@@ -5,10 +5,17 @@ using UnityEngine;
 public delegate void TextOutputHandler(string text);
 public class GameSceneController : MonoBehaviour
 {
-
-    public float playerSpeed;
+    [Header("Player Settings")]
+    [Range(5,20)] public float playerSpeed;
+    
+    [Header("Screen Settings")]
+    [Space]
     public Vector3 screenBounds;
-    public EnemyController enemyPrefab;
+
+    [Header("Prefab")]
+    [Space]
+    [SerializeField] private EnemyController enemyPrefab;   // C# Attribute
+
     private HUDController hudController;
     private int totalPoints;
 
